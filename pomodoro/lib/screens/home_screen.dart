@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const twentyFiveMinutes = 1500;
+  static const twentyFiveMinutes = 25 * 60;
   int totalSeconds = twentyFiveMinutes;
   bool isRunning = false;
   int totalPomodoros = 0;
@@ -59,7 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
-    return duration.toString().split(".").first.substring(2, 7);
+    var durationString =
+        duration.toString().split(".").first; // Remove milliseconds
+    var hours = (seconds / 3600).floor();
+
+    return hours > 0
+        ? durationString // xx:xx:xx
+        : durationString.split(":").skip(1).join(":"); // xx:xx
   }
 
   @override
